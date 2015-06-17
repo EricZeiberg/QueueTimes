@@ -1,5 +1,6 @@
 package com.queueTimes.Queue_Times.network;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,18 +31,20 @@ import java.util.List;
 
 public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> {
 
-    Context c;
+    Activity c;
     View rootView;
 
     String PARK_ENDPOINT = "https://queue-times.com/parks.json";
+    private ProgressDialog progressDialog;
 
-    public AsyncParkJsonParser(Context c, View rootView){
+    public AsyncParkJsonParser(Activity c, View rootView){
         this.c = c;
         this.rootView = rootView;
+        progressDialog = new ProgressDialog(c);
     }
 
 
-    private ProgressDialog progressDialog = new ProgressDialog(c);
+
     InputStream inputStream = null;
     String result = "";
 
@@ -49,7 +52,6 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
     protected void onPreExecute() {
         progressDialog.setMessage("Downloading your data...");
         progressDialog.show();
-        progressDialog.setOnCancelListener(arg0 -> AsyncParkJsonParser.this.cancel(true));
     }
 
     @Override

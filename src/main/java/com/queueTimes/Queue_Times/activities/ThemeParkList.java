@@ -23,14 +23,16 @@ public class ThemeParkList extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+    }
 
-
+    @Override
+    protected void onStart()
+    {
+        // TODO Auto-generated method stub
+        super.onStart();
 
         AsyncParkJsonParser parser = new AsyncParkJsonParser(this, getCurrentFocus());
         parser.execute();
-
-
-
     }
 
 

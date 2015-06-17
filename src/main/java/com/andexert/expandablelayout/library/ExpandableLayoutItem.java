@@ -34,6 +34,7 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import com.queueTimes.Queue_Times.R;
 
 public class ExpandableLayoutItem extends RelativeLayout
 {
