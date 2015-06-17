@@ -13,13 +13,12 @@ public class Park {
 
     List<Ride> rides = new ArrayList<Ride>();
 
-    public Park(String name, String description, String uri, String country, int ID, List<Ride> rides) {
+    public Park(String name, String description, String uri, String country, int ID) {
         this.name = name;
         this.description = description;
         this.uri = uri;
         this.country = country;
         this.ID = ID;
-        this.rides = rides;
     }
 
     public String getName() {
@@ -44,5 +43,9 @@ public class Park {
 
     public List<Ride> getRides() {
         return rides;
+    }
+
+    public void setRides(List<Ride> rides) {
+        this.rides = rides;
     }
 }
