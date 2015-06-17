@@ -21,6 +21,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,56 +58,39 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
     @Override
     protected List<Park> doInBackground(Context... params) {
 
-        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+        DefaultHttpClient  httpclient = new DefaultHttpClient(new BasicHttpParams());
+        HttpPost httppost = new HttpPost(PARK_ENDPOINT);
+// Depends on your web service
+        httppost.setHeader("Content-type", "application/json");
 
+        InputStream inputStream = null;
+        String result = null;
         try {
-            // Set up HTTP post
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
 
-            // HttpClient is more then less deprecated. Need to change to URLConnection
-            HttpClient httpClient = new DefaultHttpClient();
-
-            HttpPost httpPost = new HttpPost(PARK_ENDPOINT);
-            httpPost.setEntity(new UrlEncodedFormEntity(param));
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            HttpEntity httpEntity = httpResponse.getEntity();
-
-            // Read content & Log
-            inputStream = httpEntity.getContent();
-        } catch (UnsupportedEncodingException e1) {
-            Log.e("UnsupportedEncodingE", e1.toString());
-            e1.printStackTrace();
-        } catch (ClientProtocolException e2) {
-            Log.e("ClientProtocolException", e2.toString());
-            e2.printStackTrace();
-        } catch (IllegalStateException e3) {
-            Log.e("IllegalStateException", e3.toString());
-            e3.printStackTrace();
-        } catch (IOException e4) {
-            Log.e("IOException", e4.toString());
-            e4.printStackTrace();
-        }
-        // Convert response to string using String Builder
-        try {
-            BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
-            StringBuilder sBuilder = new StringBuilder();
+            inputStream = entity.getContent();
+            // json is UTF-8 by default
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+            StringBuilder sb = new StringBuilder();
 
             String line = null;
-            while ((line = bReader.readLine()) != null) {
-                sBuilder.append(line + "\n");
+            while ((line = reader.readLine()) != null)
+            {
+                sb.append(line + "\n");
             }
-
-            inputStream.close();
-            result = sBuilder.toString();
-
+            result = sb.toString();
         } catch (Exception e) {
-            Log.e("JSON", "Error converting result " + e.toString());
+            e.printStackTrace();
         }
-        //parse JSON data
+        finally {
+            try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
+        }
         List<Park> parks = new ArrayList<>();
+        Log.e("[INFO]", result);
         try {
             JSONArray jArray = new JSONArray(result);
             for(int i=0; i < jArray.length(); i++) {
-
                 JSONObject jObject = jArray.getJSONObject(i);
                 String name = jObject.getString("name");
                 String description = jObject.getString("description");
@@ -128,6 +112,9 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
         this.progressDialog.dismiss();
         // Send list to UI thread for display
 
+        for (Park p : parks){
+            Log.e("[INFO]", p.getName());
+        }
         final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.listview);
 
         ParkAdapter adapter = new ParkAdapter(c, (ArrayList<Park>) parks);

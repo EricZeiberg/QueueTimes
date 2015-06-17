@@ -31,7 +31,7 @@ public class ThemeParkList extends Activity {
         // TODO Auto-generated method stub
         super.onStart();
 
-        AsyncParkJsonParser parser = new AsyncParkJsonParser(this, getCurrentFocus());
+        AsyncParkJsonParser parser = new AsyncParkJsonParser(this, this.findViewById(android.R.id.content).getRootView());
         parser.execute();
     }
 
