@@ -8,9 +8,10 @@
             android:id="@+id/header_text"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:padding="10dp"
+            android:paddingBottom="10dp"
             android:textColor="@android:color/white"
-            android:text="ExpandableLayout Header!"
-            android:gravity="center"/>
+            android:text="Parks"
+            android:paddingLeft="5dp"
+            android:gravity="center|center_vertical|center_horizontal" android:fontFamily="sans-serif-light" />
 
 </RelativeLayout>

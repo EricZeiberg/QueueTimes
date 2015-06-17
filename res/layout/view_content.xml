@@ -9,20 +9,16 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center"
-            android:text="null"
+            android:text="This is the list of parks"
             android:textColor="@android:color/white"
-            android:background="#c0392b"/>
+            android:background="#ff0020c0"/>
 
-    <TextView
-            android:layout_below="@+id/text"
-            android:id="@+id/text1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Info"/>
     <Button
-            android:layout_below="@+id/text1"
+            android:id="@+id/button"
+            android:layout_below="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:text="Info"/>
 
 </RelativeLayout>

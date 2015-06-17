@@ -6,6 +6,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.TextView;
+import com.andexert.expandablelayout.library.ExpandableLayoutItem;
 import com.andexert.expandablelayout.library.ExpandableLayoutListView;
 import com.queueTimes.Queue_Times.R;
 import com.queueTimes.Queue_Times.adapters.ParkAdapter;
@@ -114,6 +117,7 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
         ParkAdapter adapter = new ParkAdapter(c, parks);
         // Attach the adapter to a ListView
         expandableLayoutListView.setAdapter(adapter);
+        
 
         this.progressDialog.dismiss();
     }
