@@ -5,6 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import com.andexert.expandablelayout.library.ExpandableLayoutListView;
+import com.queueTimes.Queue_Times.R;
+import com.queueTimes.Queue_Times.activities.ThemeParkList;
+import com.queueTimes.Queue_Times.adapters.ParkAdapter;
 import com.queueTimes.Queue_Times.models.Park;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,14 +28,16 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AsyncParkJsonParser extends AsyncTask<String, String, List<Park>> {
+public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> {
 
     Context c;
+    View rootView;
 
     String PARK_ENDPOINT = "https://queue-times.com/parks.json";
 
-    public AsyncParkJsonParser(Context c){
+    public AsyncParkJsonParser(Context c, View rootView){
         this.c = c;
+        this.rootView = rootView;
     }
 
 
@@ -45,7 +53,7 @@ public class AsyncParkJsonParser extends AsyncTask<String, String, List<Park>> {
     }
 
     @Override
-    protected List<Park> doInBackground(String... params) {
+    protected List<Park> doInBackground(Context... params) {
 
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
@@ -117,5 +125,11 @@ public class AsyncParkJsonParser extends AsyncTask<String, String, List<Park>> {
     protected void onPostExecute(List<Park> parks){
         this.progressDialog.dismiss();
         // Send list to UI thread for display
+
+        final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.listview);
+
+        ParkAdapter adapter = new ParkAdapter(c, (ArrayList<Park>) parks);
+        // Attach the adapter to a ListView
+        expandableLayoutListView.setAdapter(adapter);
     }
 }
