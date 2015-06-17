@@ -6,7 +6,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"
-                tools:context=".MainActivity" android:background="#ff1b98ff">
+                tools:context=".MainActivity" android:background="#34495e">
 
     <com.andexert.expandablelayout.library.ExpandableLayout
             android:id="@+id/first"
@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             expandable:el_headerLayout="@layout/view_header"
             expandable:el_contentLayout="@layout/view_content"
-            android:background="#ff0020c0"/>
+            android:background="#7f8c8d"/>
 
     <com.andexert.expandablelayout.library.ExpandableLayoutListView
             android:id="@+id/listview"

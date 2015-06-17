@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:radius="5dp">
 
     <TextView
             android:id="@+id/text"
@@ -11,7 +12,7 @@
             android:gravity="center"
             android:text="This is the list of parks"
             android:textColor="@android:color/white"
-            android:background="#ff0020c0"/>
+            android:background="#ff535f60"/>
 
     <Button
             android:id="@+id/button"
