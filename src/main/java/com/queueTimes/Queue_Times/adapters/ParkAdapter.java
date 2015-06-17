@@ -10,9 +10,10 @@ import com.queueTimes.Queue_Times.R;
 import com.queueTimes.Queue_Times.models.Park;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ParkAdapter extends ArrayAdapter<Park> {
-    public ParkAdapter(Context context, ArrayList<Park> users) {
+    public ParkAdapter(Context context, List<Park> users) {
         super(context, 0, users);
     }
 
@@ -25,10 +26,12 @@ public class ParkAdapter extends ArrayAdapter<Park> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.main, parent, false);
         }
         // Lookup view for data population
-        TextView name = (TextView) convertView.findViewById(R.id.name);
-        TextView description = (TextView) convertView.findViewById(R.id.description);
+        TextView name = (TextView) convertView.findViewById(R.id.text);
+        TextView header = (TextView) convertView.findViewById(R.id.header_text);
+        TextView description = (TextView) convertView.findViewById(R.id.text1);
         // Populate the data into the template view using the data object
         name.setText(park.getName());
+        header.setText(park.getName());
         description.setText(park.getDescription());
         // Return the completed view to render on screen
         return convertView;

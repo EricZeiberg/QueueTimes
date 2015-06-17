@@ -110,14 +110,14 @@ public class ExpandableLayoutListView extends ListView
                 for (int index = 0; index < getChildCount(); ++index)
                 {
                     ExpandableLayoutItem currentExpandableLayout = (ExpandableLayoutItem) getChildAt(index).findViewWithTag(ExpandableLayoutItem.class.getName());
-                    if (currentExpandableLayout.isOpened() && index != (position - getFirstVisiblePosition()))
-                    {
-                        currentExpandableLayout.hideNow();
-                    }
-                    else if (!currentExpandableLayout.getCloseByUser() && !currentExpandableLayout.isOpened() && index == (position - getFirstVisiblePosition()))
-                    {
-                        currentExpandableLayout.showNow();
-                    }
+//                    if (currentExpandableLayout.isOpened() && index != (position - getFirstVisiblePosition()))
+//                    {
+//                        currentExpandableLayout.hideNow();
+//                    }
+//                    else if (!currentExpandableLayout.getCloseByUser() && !currentExpandableLayout.isOpened() && index == (position - getFirstVisiblePosition()))
+//                    {
+//                        currentExpandableLayout.showNow();
+//                    }
                 }
             }
         }
