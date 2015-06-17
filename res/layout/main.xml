@@ -3,7 +3,11 @@
                 xmlns:expandable="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".MainActivity">
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                tools:context=".MainActivity" android:background="#ff1b98ff">
 
     <com.andexert.expandablelayout.library.ExpandableLayout
             android:id="@+id/first"

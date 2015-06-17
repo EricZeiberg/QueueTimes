@@ -22,6 +22,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +36,7 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
     Activity c;
     View rootView;
 
-    String PARK_ENDPOINT = "https://queue-times.com/parks.json";
+    String PARK_ENDPOINT = "http://queue-times.com/parks.json";
     private ProgressDialog progressDialog;
 
     public AsyncParkJsonParser(Activity c, View rootView){
@@ -47,7 +48,6 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
 
 
     InputStream inputStream = null;
-    String result = "";
 
     @Override
     protected void onPreExecute() {
@@ -57,37 +57,20 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
 
     @Override
     protected List<Park> doInBackground(Context... params) {
+        String result = "";
+        HttpResponse response;
+        HttpClient myClient = new DefaultHttpClient();
+        HttpPost myConnection = new HttpPost(PARK_ENDPOINT);
 
-        DefaultHttpClient  httpclient = new DefaultHttpClient(new BasicHttpParams());
-        HttpPost httppost = new HttpPost(PARK_ENDPOINT);
-// Depends on your web service
-        httppost.setHeader("Content-type", "application/json");
-
-        InputStream inputStream = null;
-        String result = null;
         try {
-            HttpResponse response = httpclient.execute(httppost);
-            HttpEntity entity = response.getEntity();
+            response = myClient.execute(myConnection);
+            result = EntityUtils.toString(response.getEntity(), "UTF-8");
 
-            inputStream = entity.getContent();
-            // json is UTF-8 by default
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
-            StringBuilder sb = new StringBuilder();
-
-            String line = null;
-            while ((line = reader.readLine()) != null)
-            {
-                sb.append(line + "\n");
-            }
-            result = sb.toString();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
-        }
         List<Park> parks = new ArrayList<>();
-        Log.e("[INFO]", result);
+        Log.e("[INFO]", result + "\n");
         try {
             JSONArray jArray = new JSONArray(result);
             for(int i=0; i < jArray.length(); i++) {
@@ -109,16 +92,17 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
 
     @Override
     protected void onPostExecute(List<Park> parks){
-        this.progressDialog.dismiss();
         // Send list to UI thread for display
 
         for (Park p : parks){
-            Log.e("[INFO]", p.getName());
+            //Log.e("[INFO]", p.getName());
         }
         final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.listview);
 
         ParkAdapter adapter = new ParkAdapter(c, (ArrayList<Park>) parks);
         // Attach the adapter to a ListView
         expandableLayoutListView.setAdapter(adapter);
+
+        this.progressDialog.dismiss();
     }
 }
