@@ -1,0 +1,8 @@
+/*.DS_Store
+/out/
+/bin/classes/
+/.idea/
+/*.iml/
+/*.apk/
+*.iml
+/target/classes
