@@ -1,7 +1,8 @@
-package com.queueTimes.Queue_Times;
+package com.queueTimes.Queue_Times.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import com.queueTimes.Queue_Times.R;
 
 public class ThemeParkList extends Activity {
     /**
