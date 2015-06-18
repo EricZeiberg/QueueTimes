@@ -3,16 +3,11 @@ package com.queueTimes.Queue_Times.network;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
-import com.andexert.expandablelayout.library.ExpandableLayoutItem;
-import com.andexert.expandablelayout.library.ExpandableLayoutListView;
+import android.widget.ListView;
 import com.queueTimes.Queue_Times.R;
-import com.queueTimes.Queue_Times.activities.RideList;
 import com.queueTimes.Queue_Times.adapters.ParkAdapter;
 import com.queueTimes.Queue_Times.models.Park;
 import org.apache.http.HttpEntity;
@@ -113,46 +108,10 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
     protected void onPostExecute(List<Park> parks){
         // Send list to UI thread for display
 
-        final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.listview);
-
-        expandableLayoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ExpandableLayoutItem mEplItem = (ExpandableLayoutItem) view.findViewById(R.id.row);
-                FrameLayout content = mEplItem.getContentLayout();
-                Button btn = (Button) content.findViewById(R.id.button);
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Park p = parks.get(position);
-                        Intent i = new Intent(c, RideList.class);
-                        i.putExtra("park", p.toString());
-                        c.startActivity(i);
-                        Log.e("INFO", "Started RideList Activity");
-                    }
-                });
-
-            }
-        });
-
-
-        // Attach the adapter to a ListView
-        //expandableLayoutListView.setAdapter(adapter);
-
-//        SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
-//        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//
-//            }
-//        });
-//        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
-//                android.R.color.holo_green_light,
-//                android.R.color.holo_orange_light,
-//                android.R.color.holo_red_light);
+        final ListView listView = (ListView) rootView.findViewById(R.id.list_view);
 
         this.progressDialog.dismiss();
         ParkAdapter adapter = new ParkAdapter(rootView.getContext(), parks);
-        expandableLayoutListView.setAdapter(adapter);
+        listView.setAdapter(adapter);
     }
 }

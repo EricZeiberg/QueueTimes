@@ -29,15 +29,15 @@ public class RideListAdapter extends ArrayAdapter<Ride> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.ride_view, parent, false);
         }
         // Lookup view for data population
-        TextView name = (TextView) convertView.findViewById(R.id.text);
-        TextView header = (TextView) convertView.findViewById(R.id.header_text);
-        Button b = (Button) convertView.findViewById(R.id.button);
+//        TextView name = (TextView) convertView.findViewById(R.id.text);
+//        TextView header = (TextView) convertView.findViewById(R.id.header_text);
+//        Button b = (Button) convertView.findViewById(R.id.button);
         // Populate the data into the template view using the data object
-        name.setText(ride.getDescription());
-        name.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        header.setText(ride.getName());
-        header.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        b.setVisibility(View.VISIBLE);
+//        name.setText(ride.getDescription());
+//        name.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+//        header.setText(ride.getName());
+//        header.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+//        b.setVisibility(View.VISIBLE);
         //description.setText(park.getDescription());
         // Return the completed view to render on screen
         return convertView;
