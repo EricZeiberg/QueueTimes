@@ -3,18 +3,15 @@ package com.queueTimes.Queue_Times.network;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
-import com.andexert.expandablelayout.library.ExpandableLayoutItem;
 import com.andexert.expandablelayout.library.ExpandableLayoutListView;
 import com.queueTimes.Queue_Times.R;
-import com.queueTimes.Queue_Times.activities.RideList;
 import com.queueTimes.Queue_Times.adapters.ParkAdapter;
+import com.queueTimes.Queue_Times.adapters.RideListAdapter;
 import com.queueTimes.Queue_Times.models.Park;
+import com.queueTimes.Queue_Times.models.Ride;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -33,23 +30,23 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> {
+public class AsyncRideListJsonParser extends AsyncTask<Context, String, List<Ride>> {
 
     Activity a;
     Context c;
     View rootView;
+    Park park;
 
-    String PARK_ENDPOINT = "http://api.queue-times.com/parks.json";
+    String SPECIFIC_PARK_ENDPOINT = "http://api.queue-times.com/park/";
     private ProgressDialog progressDialog;
 
-    public AsyncParkJsonParser(Activity a, Context c , View rootView){
+    public AsyncRideListJsonParser(Activity a, Context c , View rootView, Park park){
         this.c = c;
         this.a = a;
         this.rootView = rootView;
         progressDialog = new ProgressDialog(a);
+        this.park = park;
     }
-
-
 
     InputStream inputStream = null;
 
@@ -60,26 +57,26 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
     }
 
     @Override
-    protected List<Park> doInBackground(Context... params) {
-        String result = getJSON(PARK_ENDPOINT);
-        List<Park> parks = new ArrayList<>();
+    protected List<Ride> doInBackground(Context... params) {
+        String result = getJSON(SPECIFIC_PARK_ENDPOINT + park.getUri() + ".json");
+        List<Ride> rides = new ArrayList<>();
         try {
-            JSONArray jArray = new JSONArray(result);
+            JSONObject object = new JSONObject(result);
+            JSONArray jArray = object.getJSONArray("rides");
             for(int i=0; i < jArray.length(); i++) {
                 JSONObject jObject = jArray.getJSONObject(i);
+                int id = jObject.getInt("id");
                 String name = jObject.getString("name");
                 String description = jObject.getString("description");
-                String country = jObject.getString("country");
                 String uri = jObject.getString("uri");
-                int ID = jObject.getInt("id");
-                Park newPark = new Park(name, description, uri, country, ID);
-                parks.add(newPark);
+                Ride r = new Ride(park, name, id, description, uri, null);
+                rides.add(r);
             } // End Loop
 
         } catch (JSONException e) {
             Log.e("JSONException", "Error: " + e.toString());
         } // catch (JSONException e)
-        return parks;
+        return rides;
     }
 
     public String getJSON(String address){
@@ -110,49 +107,15 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
     }
 
     @Override
-    protected void onPostExecute(List<Park> parks){
+    protected void onPostExecute(List<Ride> rides){
         // Send list to UI thread for display
+
 
         final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.listview);
 
-        expandableLayoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ExpandableLayoutItem mEplItem = (ExpandableLayoutItem) view.findViewById(R.id.row);
-                FrameLayout content = mEplItem.getContentLayout();
-                Button btn = (Button) content.findViewById(R.id.button);
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Park p = parks.get(position);
-                        Intent i = new Intent(c, RideList.class);
-                        i.putExtra("park", p.toString());
-                        c.startActivity(i);
-                        Log.e("INFO", "Started RideList Activity");
-                    }
-                });
-
-            }
-        });
-
-
-        // Attach the adapter to a ListView
-        //expandableLayoutListView.setAdapter(adapter);
-
-//        SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
-//        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//
-//            }
-//        });
-//        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
-//                android.R.color.holo_green_light,
-//                android.R.color.holo_orange_light,
-//                android.R.color.holo_red_light);
 
         this.progressDialog.dismiss();
-        ParkAdapter adapter = new ParkAdapter(rootView.getContext(), parks);
+        RideListAdapter adapter = new RideListAdapter(rootView.getContext(), rides);
         expandableLayoutListView.setAdapter(adapter);
     }
 }

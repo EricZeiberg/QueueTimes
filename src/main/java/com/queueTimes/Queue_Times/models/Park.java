@@ -48,4 +48,18 @@ public class Park {
     public void setRides(List<Ride> rides) {
         this.rides = rides;
     }
+
+    public String toString(){
+        return name + "|" + description + "|" + uri + "|" + country + "|" + ID;
+    }
+
+    public static Park fromString(String obj){
+        String[] fields = obj.split("|");
+        String name = fields[0];
+        String description = fields[1];
+        String uri = fields[2];
+        String country = fields[3];
+        int ID = Integer.parseInt(fields[4]);
+        return new Park(name, description, uri, country, ID);
+    }
 }

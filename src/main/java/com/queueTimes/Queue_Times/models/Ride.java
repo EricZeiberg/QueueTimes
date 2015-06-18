@@ -15,26 +15,15 @@ public class Ride {
     String description;
     String uri;
 
-    HashMap<String, Double> lastWeekTimes = new HashMap<String, Double>();
-    HashMap<String, Double> lastYearTimes = new HashMap<String, Double>();
+    RideInfo rideInfo;
 
-    Queue longestQueue;
-    Queue latestQueue;
-    List<Queue> lastWeek = new ArrayList<Queue>();
-    SparseArray<Double> averageDay = new SparseArray<Double>();
-
-    public Ride(Park park, String name, int ID, String description, String uri, HashMap<String, Double> lastWeekTimes, HashMap<String, Double> lastYearTimes, Queue longestQueue, Queue latestQueue, List<Queue> lastWeek, SparseArray<Double> averageDay) {
+    public Ride(Park park, String name, int ID, String description, String uri, RideInfo rideInfo) {
         this.park = park;
         this.name = name;
         this.ID = ID;
         this.description = description;
         this.uri = uri;
-        this.lastWeekTimes = lastWeekTimes;
-        this.lastYearTimes = lastYearTimes;
-        this.longestQueue = longestQueue;
-        this.latestQueue = latestQueue;
-        this.lastWeek = lastWeek;
-        this.averageDay = averageDay;
+        this.rideInfo = rideInfo;
     }
 
     public Park getPark() {
@@ -57,27 +46,7 @@ public class Ride {
         return uri;
     }
 
-    public HashMap<String, Double> getLastWeekTimes() {
-        return lastWeekTimes;
-    }
-
-    public HashMap<String, Double> getLastYearTimes() {
-        return lastYearTimes;
-    }
-
-    public Queue getLongestQueue() {
-        return longestQueue;
-    }
-
-    public Queue getLatestQueue() {
-        return latestQueue;
-    }
-
-    public List<Queue> getLastWeek() {
-        return lastWeek;
-    }
-
-    public SparseArray<Double> getAverageDay() {
-        return averageDay;
+    public RideInfo getRideInfo() {
+        return rideInfo;
     }
 }

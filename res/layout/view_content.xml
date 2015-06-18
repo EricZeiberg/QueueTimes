@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:text="Info"/>
+            android:text="Info"
+            android:clickable="true"
+            android:focusable="true"/>
 
 </RelativeLayout>
