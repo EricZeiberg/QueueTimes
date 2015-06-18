@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+        android:background="@drawable/gradient"
+        android:padding="5dp"
+        android:paddingBottom="10dp">
+
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rihanna Love the way lie"
+            android:textColor="#040404"
+            android:typeface="sans"
+            android:textSize="15dip"
+            android:textStyle="bold"/>
+
+
+    <TextView
+            android:id="@+id/lower_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:textColor="#343434"
+            android:textSize="13dip"
+            android:layout_marginTop="1dip"
+            android:text="Just gona stand there and ..." />
+
+</RelativeLayout>

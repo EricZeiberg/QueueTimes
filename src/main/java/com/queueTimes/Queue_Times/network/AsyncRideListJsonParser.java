@@ -6,7 +6,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import com.andexert.expandablelayout.library.ExpandableLayoutListView;
+import android.widget.ListView;
 import com.queueTimes.Queue_Times.R;
 import com.queueTimes.Queue_Times.adapters.ParkAdapter;
 import com.queueTimes.Queue_Times.adapters.RideListAdapter;
@@ -111,11 +111,12 @@ public class AsyncRideListJsonParser extends AsyncTask<Context, String, List<Rid
         // Send list to UI thread for display
 
 
-        final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.listview);
-
+        final ListView listView = (ListView) rootView.findViewById(R.id.ride_list_view);
 
         this.progressDialog.dismiss();
         RideListAdapter adapter = new RideListAdapter(rootView.getContext(), rides);
-        expandableLayoutListView.setAdapter(adapter);
+        listView.setAdapter(adapter);
+
+        this.progressDialog.dismiss();
     }
 }

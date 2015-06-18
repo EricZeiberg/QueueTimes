@@ -1,5 +1,7 @@
 package com.queueTimes.Queue_Times.models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,16 +52,19 @@ public class Park {
     }
 
     public String toString(){
-        return name + "|" + description + "|" + uri + "|" + country + "|" + ID;
+        return name + "|" + description + "|" + uri + "|" + country + "|" + String.valueOf(ID);
     }
 
     public static Park fromString(String obj){
-        String[] fields = obj.split("|");
+        Log.e("STRING", obj);
+        String[] fields = obj.split("\\|");
         String name = fields[0];
         String description = fields[1];
         String uri = fields[2];
         String country = fields[3];
+        Log.e("STRING", obj + "//// " + fields[4]);
         int ID = Integer.parseInt(fields[4]);
+
         return new Park(name, description, uri, country, ID);
     }
 }

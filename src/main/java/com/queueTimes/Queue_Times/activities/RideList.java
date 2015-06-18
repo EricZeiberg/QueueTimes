@@ -25,5 +25,6 @@ public class RideList extends Activity{
         Park p = Park.fromString(parkToString);
 
         AsyncRideListJsonParser parser = new AsyncRideListJsonParser(this, getApplicationContext(), findViewById(R.id.ride_view), p);
+        parser.execute();
     }
 }
