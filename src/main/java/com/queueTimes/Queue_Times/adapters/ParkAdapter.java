@@ -33,6 +33,12 @@ public class ParkAdapter extends ArrayAdapter<Park> {
         TextView name = (TextView) convertView.findViewById(R.id.text);
         TextView header = (TextView) convertView.findViewById(R.id.header_text);
         Button b = (Button) convertView.findViewById(R.id.button);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         // Populate the data into the template view using the data object
        name.setText(park.getName());
        name.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
@@ -43,4 +49,6 @@ public class ParkAdapter extends ArrayAdapter<Park> {
         // Return the completed view to render on screen
         return convertView;
     }
+
+
 }

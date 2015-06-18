@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class ThemeParkList extends Activity {
 
     SwipeRefreshLayout swipeLayout;
+    AsyncParkJsonParser parser;
 
     /**
      * Called when the activity is first created.
@@ -35,12 +36,32 @@ public class ThemeParkList extends Activity {
     {
         // TODO Auto-generated method stub
         super.onStart();
-        AsyncParkJsonParser parser = new AsyncParkJsonParser(this, getApplicationContext(), findViewById(R.id.main_view));
+
+        parser = new AsyncParkJsonParser(this, getApplicationContext(), findViewById(R.id.main_view));
         parser.execute();
 
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.refresh_setting) {
+            parser = new AsyncParkJsonParser(this, getApplicationContext(), findViewById(R.id.main_view));
+            parser.execute();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
