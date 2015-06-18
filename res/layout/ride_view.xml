@@ -8,8 +8,19 @@
                 android:paddingTop="5dp"
                 android:id="@+id/ride_view"
                 tools:context=".MainActivity" android:background="#34495e">
+
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:text="Ride List"
+              android:textSize="20dp"
+              android:fontFamily="sans-serif"
+              android:id="@+id/ride_list_textview"
+              android:gravity="center_horizontal"
+              android:padding="5dp"
+              android:textColor="@android:color/white"/>
+
     <ListView
             android:id="@+id/ride_list_view"
+            android:layout_below="@+id/ride_list_textview"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:divider="@android:color/transparent"

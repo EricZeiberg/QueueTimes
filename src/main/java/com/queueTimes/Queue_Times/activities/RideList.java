@@ -3,6 +3,7 @@ package com.queueTimes.Queue_Times.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import com.queueTimes.Queue_Times.R;
 import com.queueTimes.Queue_Times.models.Park;
 import com.queueTimes.Queue_Times.models.Ride;
@@ -14,15 +15,20 @@ import java.util.List;
 public class RideList extends Activity{
 
     List<Ride> rides = new ArrayList<>();
+    TextView titleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ride_view);
 
+        titleText = (TextView) findViewById(R.id.ride_list_textview);
+
         Intent intent = getIntent();
         String parkToString = intent.getExtras().getString("park");
         Park p = Park.fromString(parkToString);
+
+        titleText.setText("Ride List for " + p.getName());
 
         AsyncRideListJsonParser parser = new AsyncRideListJsonParser(this, getApplicationContext(), findViewById(R.id.ride_view), p);
         parser.execute();
