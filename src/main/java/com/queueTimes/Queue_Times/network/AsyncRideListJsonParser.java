@@ -6,6 +6,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
+import com.queueTimes.Queue_Times.R;
+import com.queueTimes.Queue_Times.adapters.ParkAdapter;
+import com.queueTimes.Queue_Times.adapters.RideListAdapter;
 import com.queueTimes.Queue_Times.models.Park;
 import com.queueTimes.Queue_Times.models.Ride;
 import org.apache.http.HttpEntity;
@@ -107,11 +111,12 @@ public class AsyncRideListJsonParser extends AsyncTask<Context, String, List<Rid
         // Send list to UI thread for display
 
 
-//        final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.listview);
-//
-//
-//        this.progressDialog.dismiss();
-//        RideListAdapter adapter = new RideListAdapter(rootView.getContext(), rides);
-//        expandableLayoutListView.setAdapter(adapter);
+        final ListView listView = (ListView) rootView.findViewById(R.id.ride_list_view);
+
+        this.progressDialog.dismiss();
+        RideListAdapter adapter = new RideListAdapter(rootView.getContext(), rides);
+        listView.setAdapter(adapter);
+
+        this.progressDialog.dismiss();
     }
 }

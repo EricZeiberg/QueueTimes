@@ -22,24 +22,16 @@ public class RideListAdapter extends ArrayAdapter<Ride> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
         Ride ride = getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.ride_view, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row, parent, false);
         }
-        // Lookup view for data population
-//        TextView name = (TextView) convertView.findViewById(R.id.text);
-//        TextView header = (TextView) convertView.findViewById(R.id.header_text);
-//        Button b = (Button) convertView.findViewById(R.id.button);
-        // Populate the data into the template view using the data object
-//        name.setText(ride.getDescription());
-//        name.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-//        header.setText(ride.getName());
-//        header.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-//        b.setVisibility(View.VISIBLE);
-        //description.setText(park.getDescription());
-        // Return the completed view to render on screen
+        TextView name = (TextView) convertView.findViewById(R.id.title);
+       TextView header = (TextView) convertView.findViewById(R.id.lower_text);
+        name.setText(ride.getName());
+       name.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+      header.setText("Description coming soon!"); // What the string said :P
+
         return convertView;
     }
 }

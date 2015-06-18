@@ -3,11 +3,14 @@ package com.queueTimes.Queue_Times.network;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.queueTimes.Queue_Times.R;
+import com.queueTimes.Queue_Times.activities.RideList;
 import com.queueTimes.Queue_Times.adapters.ParkAdapter;
 import com.queueTimes.Queue_Times.models.Park;
 import org.apache.http.HttpEntity;
@@ -113,5 +116,16 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
         this.progressDialog.dismiss();
         ParkAdapter adapter = new ParkAdapter(rootView.getContext(), parks);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Park p = parks.get(position);
+                Intent i = new Intent(c, RideList.class);
+                i.putExtra("park", p.toString());
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                c.startActivity(i);
+            }
+        });
     }
 }

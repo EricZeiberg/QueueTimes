@@ -8,7 +8,13 @@
                 android:paddingTop="5dp"
                 android:id="@+id/ride_view"
                 tools:context=".MainActivity" android:background="#34495e">
-
+    <ListView
+            android:id="@+id/ride_list_view"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp">
+    </ListView>
 
 
 </RelativeLayout>
