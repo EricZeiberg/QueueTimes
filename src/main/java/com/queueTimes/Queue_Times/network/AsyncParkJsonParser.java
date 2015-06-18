@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,16 +34,18 @@ import java.util.List;
 
 public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> {
 
-    Activity c;
+    Activity a;
+    Context c;
     View rootView;
 
     String PARK_ENDPOINT = "http://api.queue-times.com/parks.json";
     private ProgressDialog progressDialog;
 
-    public AsyncParkJsonParser(Activity c, View rootView){
+    public AsyncParkJsonParser(Activity a, Context c , View rootView){
         this.c = c;
+        this.a = a;
         this.rootView = rootView;
-        progressDialog = new ProgressDialog(c);
+        progressDialog = new ProgressDialog(a);
     }
 
 
@@ -114,11 +117,24 @@ public class AsyncParkJsonParser extends AsyncTask<Context, String, List<Park>> 
         }
         final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.listview);
 
-        ParkAdapter adapter = new ParkAdapter(c, parks);
+
         // Attach the adapter to a ListView
-        expandableLayoutListView.setAdapter(adapter);
-        
+        //expandableLayoutListView.setAdapter(adapter);
+
+        SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+        });
+        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         this.progressDialog.dismiss();
+        ParkAdapter adapter = new ParkAdapter(rootView.getContext(), parks);
+        expandableLayoutListView.setAdapter(adapter);
     }
 }

@@ -31,13 +31,11 @@ public class ParkAdapter extends ArrayAdapter<Park> {
         }
         // Lookup view for data population
         TextView name = (TextView) convertView.findViewById(R.id.text);
-        ExpandableLayoutItem item = (ExpandableLayoutItem) convertView.findViewById(R.id.row);
-        //item.setBackgroundColor(Color.parseColor("#7f8c8d"));
         TextView header = (TextView) convertView.findViewById(R.id.header_text);
         Button b = (Button) convertView.findViewById(R.id.button);
         // Populate the data into the template view using the data object
-        name.setText(park.getName());
-        name.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+       name.setText(park.getName());
+       name.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         header.setText(park.getName());
         header.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         b.setVisibility(View.VISIBLE);
