@@ -9,10 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.queueTimes.Queue_Times.R;
-import com.queueTimes.Queue_Times.adapters.ParkAdapter;
 import com.queueTimes.Queue_Times.adapters.RideListAdapter;
 import com.queueTimes.Queue_Times.models.Park;
+import com.queueTimes.Queue_Times.models.Queue;
 import com.queueTimes.Queue_Times.models.Ride;
+import com.queueTimes.Queue_Times.models.RideInfo;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -31,22 +32,21 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AsyncRideListJsonParser extends AsyncTask<Context, String, List<Ride>> {
-
+public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideInfo> {
     Activity a;
     Context c;
     View rootView;
-    Park park;
+    Ride ride;
 
     String SPECIFIC_PARK_ENDPOINT = "http://api.queue-times.com/park/";
     private ProgressDialog progressDialog;
 
-    public AsyncRideListJsonParser(Activity a, Context c , View rootView, Park park){
+    public AsyncQueueInfoJsonParser(Activity a, Context c , View rootView, Ride ride){
         this.c = c;
         this.a = a;
         this.rootView = rootView;
         progressDialog = new ProgressDialog(a);
-        this.park = park;
+        this.ride = ride;
     }
 
     InputStream inputStream = null;
@@ -58,21 +58,39 @@ public class AsyncRideListJsonParser extends AsyncTask<Context, String, List<Rid
     }
 
     @Override
-    protected List<Ride> doInBackground(Context... params) {
-        String result = getJSON(SPECIFIC_PARK_ENDPOINT + park.getUri() + ".json");
-        List<Ride> rides = new ArrayList<>();
+    protected RideInfo doInBackground(Context... params) {
+        String result = getJSON(SPECIFIC_PARK_ENDPOINT + ride.getPark().getUri() + "/" + ride.getUri() + ".json");
+        List<Queue> lastWeekArray = new ArrayList<>();
+        Queue latestQueue;
+        Queue longestQueue;
         try {
             JSONObject object = new JSONObject(result);
-            JSONArray jArray = object.getJSONArray("rides");
-            for(int i=0; i < jArray.length(); i++) {
-                JSONObject jObject = jArray.getJSONObject(i);
-                int id = jObject.getInt("id");
-                String name = jObject.getString("name");
-                String description = jObject.getString("description");
-                String uri = jObject.getString("uri");
-                Ride r = new Ride(park, name, id, description, uri, null);
-                rides.add(r);
-            } // End Loop
+            JSONArray lastWeek = object.getJSONArray("last_week");
+            for(int i=0; i < lastWeek.length(); i++) {
+                JSONObject jObject = lastWeek.getJSONObject(i);
+                long unixTime = jObject.getLong("when");
+                int waitTime = jObject.getInt("wait");
+                boolean operational = jObject.getBoolean("operational");
+                Queue q = new Queue(ride, unixTime, waitTime, operational, null);
+                lastWeekArray.add(q);
+            }
+            // Latest Queue
+            JSONObject latest = object.getJSONObject("latest_queue");
+            long unixTime = latest.getLong("when");
+            int waitTime = latest.getInt("wait");
+            boolean operational = latest.getBoolean("operational");
+            String vague = latest.getString("vague");
+            latestQueue = new Queue(ride, unixTime, waitTime, operational, vague);
+
+            //Longest Queue
+            JSONObject longest = object.getJSONObject("longest_queue");
+            long unixTime_longest = longest.getLong("when");
+            int waitTime_longest = longest.getInt("wait");
+            boolean operational_longest = longest.getBoolean("operational");
+            String vague_longest = latest.getString("vague");
+            longestQueue = new Queue(ride, unixTime_longest, waitTime_longest, operational_longest, vague_longest);
+
+
 
         } catch (JSONException e) {
             Log.e("JSONException", "Error: " + e.toString());
