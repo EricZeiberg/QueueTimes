@@ -3,12 +3,17 @@ package com.queueTimes.Queue_Times.network;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import com.google.gson.Gson;
 import com.queueTimes.Queue_Times.R;
+import com.queueTimes.Queue_Times.activities.RideList;
+import com.queueTimes.Queue_Times.activities.RideView;
 import com.queueTimes.Queue_Times.adapters.ParkAdapter;
 import com.queueTimes.Queue_Times.adapters.RideListAdapter;
 import com.queueTimes.Queue_Times.models.Park;
@@ -124,7 +129,11 @@ public class AsyncRideListJsonParser extends AsyncTask<Context, String, List<Rid
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Ride r = rides.get(position);
-
+                Intent i = new Intent(c, RideList.class);
+                Gson gson = new Gson();
+                i.putExtra("ride", gson.toJson(r));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                c.startActivity(i);
             }
         });
     }

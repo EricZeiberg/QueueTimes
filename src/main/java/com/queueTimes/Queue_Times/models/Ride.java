@@ -1,12 +1,13 @@
 package com.queueTimes.Queue_Times.models;
 
+import android.os.Parcelable;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Ride {
+public class Ride{
 
     Park park;
 
@@ -53,4 +54,5 @@ public class Ride {
     public void setRideInfo(RideInfo rideInfo) {
         this.rideInfo = rideInfo;
     }
+
 }
