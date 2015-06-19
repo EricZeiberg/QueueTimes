@@ -1,72 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical" >
+<ScrollView android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fillViewport="true" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:orientation="horizontal"
-            android:layout_weight="1" >
 
-        <Button
-                android:layout_width="0dip"
-                android:id="@+id/current_wait_time_button"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/green_gradient"
-                android:text="Current Wait Time"/>
 
-        <Button
-                android:layout_width="0dip"
-                android:id="@+id/longest_wait_time_button"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/green_gradient"
-                android:text="Longest Wait Time"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:background="#34495e">
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Ride Detail View"
+                  android:textSize="20dp"
+                  android:fontFamily="sans-serif"
+                  android:id="@+id/ride_list_textview"
+                  android:gravity="center_horizontal"
+                  android:padding="5dp"
+                  android:textColor="@android:color/white"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:orientation="horizontal"
+                android:layout_weight="33" >
+
+            <Button
+                    android:layout_width="0dip"
+                    android:layout_margin="3dp"
+                    android:id="@+id/current_wait_time_button"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/green_gradient"
+                    android:text="Current Wait Time"/>
+
+            <Button
+                    android:layout_width="0dip"
+                    android:layout_margin="3dp"
+                    android:id="@+id/longest_wait_time_button"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/green_gradient"
+                    android:text="Longest Wait Time"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:orientation="horizontal"
+                android:layout_weight="33" >
+
+            <Button
+                    android:layout_width="0dip"
+                    android:layout_margin="3dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/last_week_wait_time_button"
+                    android:background="@drawable/green_gradient"
+                    android:text="Last Week's Wait Time"/>
+
+            <Button
+                    android:layout_width="0dip"
+                    android:layout_margin="3dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/average_wait_time_last_week_button"
+                    android:layout_weight="1"
+                    android:background="@drawable/green_gradient"
+                    android:text="Average Wait Time for Last Week"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:orientation="horizontal"
+                android:layout_weight="33" >
+
+            <Button
+                    android:layout_width="0dip"
+                    android:id="@+id/average_wait_time_last_month_button"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/green_gradient"
+                    android:text="Average Wait Time for Last Month"/>
+
+            <Button
+                    android:layout_width="0dip"
+                    android:layout_margin="3dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/green_gradient"
+                    android:layout_weight="1" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:orientation="horizontal"
-            android:layout_weight="1" >
-
-        <Button
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/last_week_wait_time_button"
-                android:background="@drawable/green_gradient"
-                android:text="Last Week's Wait Time"/>
-
-        <Button
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:id="@+id/average_wait_time_last_week_button"
-                android:layout_weight="1"
-                android:background="@drawable/green_gradient"
-                android:text="Average Wait Time for Last Week"/>
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:orientation="horizontal"
-            android:layout_weight="1" >
-
-        <Button
-                android:layout_width="0dip"
-                android:id="@+id/average_wait_time_last_month_button"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/green_gradient"
-                android:text="Average Wait Time for Last Month"/>
-
-        <Button
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-    </LinearLayout>
-</LinearLayout>
+</ScrollView>

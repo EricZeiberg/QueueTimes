@@ -14,6 +14,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.RideList" android:label="Rides"></activity>
+        <activity android:name=".activities.RideView" android:label="Info View"></activity>
     </application>
 
 </manifest>
