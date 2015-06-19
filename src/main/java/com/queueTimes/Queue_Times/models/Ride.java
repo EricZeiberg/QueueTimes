@@ -49,4 +49,8 @@ public class Ride {
     public RideInfo getRideInfo() {
         return rideInfo;
     }
+
+    public void setRideInfo(RideInfo rideInfo) {
+        this.rideInfo = rideInfo;
+    }
 }

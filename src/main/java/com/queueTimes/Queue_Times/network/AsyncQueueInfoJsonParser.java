@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideInfo> {
@@ -63,6 +65,11 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
         List<Queue> lastWeekArray = new ArrayList<>();
         Queue latestQueue;
         Queue longestQueue;
+        SparseArray<Double> averageDayArray = new SparseArray<>();
+        HashMap<String, Double> averageWeekMap = new HashMap<>();
+        HashMap<String, Double> averageYearMap = new HashMap<>();
+
+        RideInfo rideInfo = null;
         try {
             JSONObject object = new JSONObject(result);
             JSONArray lastWeek = object.getJSONArray("last_week");
@@ -90,12 +97,54 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
             String vague_longest = latest.getString("vague");
             longestQueue = new Queue(ride, unixTime_longest, waitTime_longest, operational_longest, vague_longest);
 
+            // Average Day
+            JSONArray averageDay = object.getJSONArray("average_day");
+            for(int i=0; i < averageDay.length(); i++) {
+                JSONObject obj = averageDay.getJSONObject(i);
+                int hour = obj.getInt("hour");
+                double average = obj.getDouble("average");
+                averageDayArray.append(hour, average);
+            }
 
+            // Average Week
+            JSONObject averageWeek = object.getJSONObject("average_week");
+            averageWeekMap.put("Sunday", averageWeek.getDouble("Sunday"));
+            averageWeekMap.put("Monday", averageWeek.getDouble("Monday"));
+            averageWeekMap.put("Tuesday", averageWeek.getDouble("Tuesday"));
+            averageWeekMap.put("Wednesday", averageWeek.getDouble("Wednesday"));
+            averageWeekMap.put("Thursday", averageWeek.getDouble("Thursday"));
+            averageWeekMap.put("Friday", averageWeek.getDouble("Friday"));
+            averageWeekMap.put("Saturday", averageWeek.getDouble("Saturday"));
+
+            // Average Year
+            JSONObject averageYear = object.getJSONObject("average_year");
+            averageYear.put("January", averageYear.getDouble("January"));
+            averageYear.put("February", averageYear.getDouble("February"));
+            averageYear.put("March", averageYear.getDouble("March"));
+            averageYear.put("April", averageYear.getDouble("April"));
+            averageYear.put("May", averageYear.getDouble("May"));
+            averageYear.put("June", averageYear.getDouble("June"));
+            averageYear.put("July", averageYear.getDouble("July"));
+            averageYear.put("August", averageYear.getDouble("August"));
+            averageYear.put("September", averageYear.getDouble("September"));
+            averageYear.put("October", averageYear.getDouble("October"));
+            averageYear.put("November", averageYear.getDouble("November"));
+            averageYear.put("December", averageYear.getDouble("December"));
+
+            rideInfo = new RideInfo(ride);
+            rideInfo.setAverageDay(averageDayArray);
+            rideInfo.setLastWeek(lastWeekArray);
+            rideInfo.setLastWeekTimes(averageWeekMap);
+            rideInfo.setLastYearTimes(averageYearMap);
+            rideInfo.setLatestQueue(latestQueue);
+            rideInfo.setLongestQueue(longestQueue);
+
+            ride.setRideInfo(rideInfo);
 
         } catch (JSONException e) {
             Log.e("JSONException", "Error: " + e.toString());
         } // catch (JSONException e)
-        return rides;
+        return rideInfo;
     }
 
     public String getJSON(String address){
@@ -126,24 +175,11 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
     }
 
     @Override
-    protected void onPostExecute(List<Ride> rides){
+    protected void onPostExecute(RideInfo rideInfo){
         // Send list to UI thread for display
 
 
-        final ListView listView = (ListView) rootView.findViewById(R.id.ride_list_view);
-
-        this.progressDialog.dismiss();
-        RideListAdapter adapter = new RideListAdapter(rootView.getContext(), rides);
-        listView.setAdapter(adapter);
-
         this.progressDialog.dismiss();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Ride r = rides.get(position);
-
-            }
-        });
     }
 }
