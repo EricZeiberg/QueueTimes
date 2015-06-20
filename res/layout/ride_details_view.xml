@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:orientation="horizontal"
-                android:layout_weight="33" >
+                android:layout_weight="25" >
 
             <Button
                     android:layout_width="0dip"
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:orientation="horizontal"
-                android:layout_weight="33" >
+                android:layout_weight="25" >
 
             <Button
                     android:layout_width="0dip"
@@ -64,26 +64,50 @@
                     android:layout_width="0dip"
                     android:layout_margin="3dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/average_wait_time_last_week_button"
+                    android:id="@+id/average_daily_wait_time_button"
                     android:layout_weight="1"
                     android:background="@drawable/green_gradient"
-                    android:text="Average Wait Time for Last Week"/>
+                    android:text="Average Wait Time during the Day"/>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:orientation="horizontal"
-                android:layout_weight="33" >
+                android:layout_weight="25" >
 
             <Button
                     android:layout_width="0dip"
-                    android:id="@+id/average_wait_time_last_month_button"
+                    android:id="@+id/average_wait_time_last_year_button"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:background="@drawable/green_gradient"
-                    android:text="Average Wait Time for Last Month"/>
+                    android:text="Average Wait Time during the year"/>
+
+            <Button
+                    android:layout_width="0dip"
+                    android:id="@+id/average_wait_time_last_month_button"
+                    android:layout_margin="3dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/green_gradient"
+                    android:layout_weight="1"
+                    android:text="Average Wait Time during the month"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:orientation="horizontal"
+                android:layout_weight="25" >
+
+            <Button
+                    android:layout_width="0dip"
+                    android:id="@+id/average_wait_time_last_week_button"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/green_gradient"
+                    android:text="Average Wait Time during the week"/>
 
             <Button
                     android:layout_width="0dip"
