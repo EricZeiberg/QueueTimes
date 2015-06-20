@@ -15,6 +15,7 @@
         </activity>
         <activity android:name=".activities.RideList" android:label="Rides"></activity>
         <activity android:name=".activities.RideView" android:label="Info View"></activity>
+        <activity android:name=".popups.LastWeekGraphPopup" android:theme="@android:style/Theme.Holo.Dialog"></activity>
     </application>
 
 </manifest>

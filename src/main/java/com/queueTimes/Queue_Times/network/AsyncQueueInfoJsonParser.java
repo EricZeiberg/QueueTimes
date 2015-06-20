@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import com.queueTimes.Queue_Times.R;
 import com.queueTimes.Queue_Times.adapters.RideListAdapter;
@@ -15,6 +16,7 @@ import com.queueTimes.Queue_Times.models.Park;
 import com.queueTimes.Queue_Times.models.Queue;
 import com.queueTimes.Queue_Times.models.Ride;
 import com.queueTimes.Queue_Times.models.RideInfo;
+import com.queueTimes.Queue_Times.popups.MessageDialog;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -32,6 +34,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideInfo> {
@@ -76,7 +79,7 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
             for(int i=0; i < lastWeek.length(); i++) {
                 JSONObject jObject = lastWeek.getJSONObject(i);
                 long unixTime = jObject.getLong("when");
-                int waitTime = jObject.getInt("wait");
+                int waitTime = jObject.getInt("wait_time");
                 boolean operational = jObject.getBoolean("operational");
                 Queue q = new Queue(ride, unixTime, waitTime, operational, null);
                 lastWeekArray.add(q);
@@ -84,7 +87,7 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
             // Latest Queue
             JSONObject latest = object.getJSONObject("latest_queue");
             long unixTime = latest.getLong("when");
-            int waitTime = latest.getInt("wait");
+            int waitTime = latest.getInt("wait_time");
             boolean operational = latest.getBoolean("operational");
             String vague = latest.getString("vague");
             latestQueue = new Queue(ride, unixTime, waitTime, operational, vague);
@@ -92,7 +95,7 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
             //Longest Queue
             JSONObject longest = object.getJSONObject("longest_queue");
             long unixTime_longest = longest.getLong("when");
-            int waitTime_longest = longest.getInt("wait");
+            int waitTime_longest = longest.getInt("wait_time");
             boolean operational_longest = longest.getBoolean("operational");
             String vague_longest = latest.getString("vague");
             longestQueue = new Queue(ride, unixTime_longest, waitTime_longest, operational_longest, vague_longest);
@@ -108,28 +111,29 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
 
             // Average Week
             JSONObject averageWeek = object.getJSONObject("average_week");
-            averageWeekMap.put("Sunday", averageWeek.getDouble("Sunday"));
-            averageWeekMap.put("Monday", averageWeek.getDouble("Monday"));
-            averageWeekMap.put("Tuesday", averageWeek.getDouble("Tuesday"));
-            averageWeekMap.put("Wednesday", averageWeek.getDouble("Wednesday"));
-            averageWeekMap.put("Thursday", averageWeek.getDouble("Thursday"));
-            averageWeekMap.put("Friday", averageWeek.getDouble("Friday"));
-            averageWeekMap.put("Saturday", averageWeek.getDouble("Saturday"));
+            Iterator<String> iter = averageWeek.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                try {
+                    double value = averageWeek.getDouble(key);
+                    averageWeekMap.put(key, value);
+                } catch (JSONException e) {
+                    // Something went wrong!
+                }
+            }
 
             // Average Year
             JSONObject averageYear = object.getJSONObject("average_year");
-            averageYear.put("January", averageYear.getDouble("January"));
-            averageYear.put("February", averageYear.getDouble("February"));
-            averageYear.put("March", averageYear.getDouble("March"));
-            averageYear.put("April", averageYear.getDouble("April"));
-            averageYear.put("May", averageYear.getDouble("May"));
-            averageYear.put("June", averageYear.getDouble("June"));
-            averageYear.put("July", averageYear.getDouble("July"));
-            averageYear.put("August", averageYear.getDouble("August"));
-            averageYear.put("September", averageYear.getDouble("September"));
-            averageYear.put("October", averageYear.getDouble("October"));
-            averageYear.put("November", averageYear.getDouble("November"));
-            averageYear.put("December", averageYear.getDouble("December"));
+            Iterator<String> iter1 = averageYear.keys();
+            while (iter1.hasNext()) {
+                String key = iter1.next();
+                try {
+                    double value = averageYear.getDouble(key);
+                    averageYearMap.put(key, value);
+                } catch (JSONException e) {
+                    // Something went wrong!
+                }
+            }
 
             rideInfo = new RideInfo(ride);
             rideInfo.setAverageDay(averageDayArray);
@@ -143,6 +147,7 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
 
         } catch (JSONException e) {
             Log.e("JSONException", "Error: " + e.toString());
+
         } // catch (JSONException e)
         return rideInfo;
     }
@@ -178,6 +183,24 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
     protected void onPostExecute(RideInfo rideInfo){
         // Send list to UI thread for display
 
+        Button currentQueueTime;
+        Button longestQueueTime;
+        Button lastWeek;
+        Button aveLastWeek;
+        Button aveLastMonth;
+
+        currentQueueTime = (Button) a.findViewById(R.id.current_wait_time_button);
+        currentQueueTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MessageDialog dialog = new MessageDialog("The current wait time is " + rideInfo.getLatestQueue().getWaitTime() + " minutes.");
+                dialog.show(a.getFragmentManager(), "Wait Time");
+            }
+        });
+        longestQueueTime = (Button) a.findViewById(R.id.longest_wait_time_button);
+        lastWeek = (Button) a.findViewById(R.id.last_week_wait_time_button);
+        aveLastWeek = (Button) a.findViewById(R.id.average_wait_time_last_week_button);
+        aveLastMonth = (Button) a.findViewById(R.id.average_wait_time_last_month_button);
 
         this.progressDialog.dismiss();
 
