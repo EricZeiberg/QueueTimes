@@ -20,6 +20,7 @@ import com.queueTimes.Queue_Times.models.Park;
 import com.queueTimes.Queue_Times.models.Queue;
 import com.queueTimes.Queue_Times.models.Ride;
 import com.queueTimes.Queue_Times.models.RideInfo;
+import com.queueTimes.Queue_Times.popups.AveDayGraphPopup;
 import com.queueTimes.Queue_Times.popups.LastWeekGraphPopup;
 import com.queueTimes.Queue_Times.popups.MessageDialog;
 import org.apache.http.HttpEntity;
@@ -194,6 +195,8 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
         Button aveLastWeek;
         Button aveLastMonth;
 
+        Button aveDaily;
+
         Button openStatus;
 
         currentQueueTime = (Button) a.findViewById(R.id.current_wait_time_button);
@@ -212,12 +215,21 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
                 dialog.show(a.getFragmentManager(), "Longest Wait Time");
             }
         });
+        aveDaily = (Button) a.findViewById(R.id.average_daily_wait_time_button);
+        aveDaily.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(c, AveDayGraphPopup.class);
+                DataObject.setObject(rideInfo);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                c.startActivity(i);
+            }
+        });
         lastWeek = (Button) a.findViewById(R.id.last_week_wait_time_button);
         lastWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(c, LastWeekGraphPopup.class);
-                Gson gson = new Gson();
                 DataObject.setObject(rideInfo);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 c.startActivity(i);

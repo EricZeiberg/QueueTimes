@@ -16,6 +16,8 @@
         <activity android:name=".activities.RideList" android:label="Rides"></activity>
         <activity android:name=".activities.RideView" android:label="Info View"></activity>
         <activity android:label="Queue Times from Last Week" android:name=".popups.LastWeekGraphPopup" android:theme="@android:style/Theme.Holo.Dialog"></activity>
+        <activity android:label="Average Daily Queue Times" android:name=".popups.AveDayGraphPopup" android:theme="@android:style/Theme.Holo.Dialog"></activity>
+
     </application>
 
 </manifest>

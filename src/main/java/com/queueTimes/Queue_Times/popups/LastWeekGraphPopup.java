@@ -46,7 +46,8 @@ public class LastWeekGraphPopup extends Activity{
         }
 
 
-      LineDataSet dataSet = new LineDataSet(entryList, "Wait time in minutes");
+       LineDataSet dataSet = new LineDataSet(entryList, "Wait time in minutes");
+        dataSet.setCircleColor(getResources().getColor(R.color.red));
 
         LineData data = new LineData(xValues, dataSet);
 
