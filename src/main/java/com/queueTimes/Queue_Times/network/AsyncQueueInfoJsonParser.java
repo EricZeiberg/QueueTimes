@@ -189,6 +189,8 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
         Button aveLastWeek;
         Button aveLastMonth;
 
+        Button openStatus;
+
         currentQueueTime = (Button) a.findViewById(R.id.current_wait_time_button);
         currentQueueTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,6 +203,12 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
         lastWeek = (Button) a.findViewById(R.id.last_week_wait_time_button);
         aveLastWeek = (Button) a.findViewById(R.id.average_wait_time_last_week_button);
         aveLastMonth = (Button) a.findViewById(R.id.average_wait_time_last_month_button);
+        openStatus = (Button) a.findViewById(R.id.open_status_button);
+
+        if (!rideInfo.getLatestQueue().isOperational()){
+            openStatus.setBackgroundResource(R.drawable.red_gradient);
+            openStatus.setText("This ride is currently closed!");
+        }
 
         this.progressDialog.dismiss();
 

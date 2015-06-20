@@ -87,10 +87,12 @@
 
             <Button
                     android:layout_width="0dip"
+                    android:id="@+id/open_status_button"
                     android:layout_margin="3dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/green_gradient"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:text="This ride is currently open!"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
