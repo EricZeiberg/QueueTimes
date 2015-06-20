@@ -73,4 +73,7 @@ public class RideInfo {
         return ride;
     }
 
+    public void setRide(Ride ride) {
+        this.ride = ride;
+    }
 }

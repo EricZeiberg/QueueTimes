@@ -3,6 +3,7 @@ package com.queueTimes.Queue_Times.network;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.SparseArray;
@@ -10,12 +11,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import com.google.gson.Gson;
 import com.queueTimes.Queue_Times.R;
+import com.queueTimes.Queue_Times.activities.RideView;
 import com.queueTimes.Queue_Times.adapters.RideListAdapter;
+import com.queueTimes.Queue_Times.data.DataObject;
 import com.queueTimes.Queue_Times.models.Park;
 import com.queueTimes.Queue_Times.models.Queue;
 import com.queueTimes.Queue_Times.models.Ride;
 import com.queueTimes.Queue_Times.models.RideInfo;
+import com.queueTimes.Queue_Times.popups.LastWeekGraphPopup;
 import com.queueTimes.Queue_Times.popups.MessageDialog;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -196,11 +201,28 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
             @Override
             public void onClick(View v) {
                 MessageDialog dialog = new MessageDialog("The current wait time is " + rideInfo.getLatestQueue().getWaitTime() + " minutes.");
-                dialog.show(a.getFragmentManager(), "Wait Time");
+                dialog.show(a.getFragmentManager(), "Current Wait Time");
             }
         });
         longestQueueTime = (Button) a.findViewById(R.id.longest_wait_time_button);
+        longestQueueTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MessageDialog dialog = new MessageDialog("The longest queue time EVER was " + rideInfo.getLongestQueue().getWaitTime() + " minutes.");
+                dialog.show(a.getFragmentManager(), "Longest Wait Time");
+            }
+        });
         lastWeek = (Button) a.findViewById(R.id.last_week_wait_time_button);
+        lastWeek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(c, LastWeekGraphPopup.class);
+                Gson gson = new Gson();
+                DataObject.setObject(rideInfo);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                c.startActivity(i);
+            }
+        });
         aveLastWeek = (Button) a.findViewById(R.id.average_wait_time_last_week_button);
         aveLastMonth = (Button) a.findViewById(R.id.average_wait_time_last_month_button);
         openStatus = (Button) a.findViewById(R.id.open_status_button);
