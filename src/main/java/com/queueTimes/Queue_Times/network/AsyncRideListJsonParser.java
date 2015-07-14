@@ -134,6 +134,7 @@ public class AsyncRideListJsonParser extends AsyncTask<Context, String, List<Rid
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Ride r = rides.get(position);
+                r.setRideInfo(null);
                 Intent i = new Intent(c, RideView.class);
                 Gson gson = new Gson();
                 i.putExtra("ride", gson.toJson(r));
