@@ -31,7 +31,7 @@ public class RideListAdapter extends ArrayAdapter<Ride> {
         name.setText(ride.getName());
        name.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         if (ride.getRideInfo().getLatestQueue().isOperational()){
-            header.setText("Current wait time: " + ride.getRideInfo().getLatestQueue().getWaitTime());
+            header.setText("Current wait time: " + ride.getRideInfo().getLatestQueue().getWaitTime() + " minutes.");
         }
         else {
             header.setText("This ride is currently closed");

@@ -193,21 +193,10 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
         Button openStatus;
 
         currentQueueTime = (Button) a.findViewById(R.id.current_wait_time_button);
-        currentQueueTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MessageDialog dialog = new MessageDialog("The current wait time is " + rideInfo.getLatestQueue().getWaitTime() + " minutes.");
-                dialog.show(a.getFragmentManager(), "Current Wait Time");
-            }
-        });
+        currentQueueTime.setText("The current wait time is: " + rideInfo.getLatestQueue().getWaitTime() + " minutes.");
+
         longestQueueTime = (Button) a.findViewById(R.id.longest_wait_time_button);
-        longestQueueTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MessageDialog dialog = new MessageDialog("The longest queue time EVER was " + rideInfo.getLongestQueue().getWaitTime() + " minutes.");
-                dialog.show(a.getFragmentManager(), "Longest Wait Time");
-            }
-        });
+        longestQueueTime.setText("The longest wait time ever was: " + rideInfo.getLongestQueue().getWaitTime() + " minutes.");
         aveDaily = (Button) a.findViewById(R.id.average_daily_wait_time_button);
         aveDaily.setOnClickListener(new View.OnClickListener() {
             @Override
