@@ -15,10 +15,11 @@
                   android:text="Ride Detail View"
                   android:textSize="20dp"
                   android:fontFamily="sans-serif"
-                  android:id="@+id/ride_list_textview"
+                  android:id="@+id/ride_detail_view_textview"
                   android:gravity="center_horizontal"
                   android:padding="5dp"
-                  android:textColor="@android:color/white"/>
+                  android:textColor="@android:color/white"
+                />
 
         <LinearLayout
                 android:layout_width="match_parent"

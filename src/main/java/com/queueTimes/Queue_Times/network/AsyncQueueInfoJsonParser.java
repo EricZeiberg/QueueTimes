@@ -9,6 +9,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import com.queueTimes.Queue_Times.R;
 import com.queueTimes.Queue_Times.data.DataObject;
 import com.queueTimes.Queue_Times.models.Queue;
@@ -191,6 +192,11 @@ public class AsyncQueueInfoJsonParser  extends AsyncTask<Context, String, RideIn
         Button aveDaily;
 
         Button openStatus;
+
+        TextView title;
+
+        title = (TextView) a.findViewById(R.id.ride_detail_view_textview);
+        title.setText(rideInfo.getRide().getName());
 
         currentQueueTime = (Button) a.findViewById(R.id.current_wait_time_button);
         currentQueueTime.setText("The current wait time is: " + rideInfo.getLatestQueue().getWaitTime() + " minutes.");
