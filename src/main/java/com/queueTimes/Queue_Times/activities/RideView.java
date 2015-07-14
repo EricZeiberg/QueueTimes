@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +61,10 @@ public class RideView extends Activity{
             AsyncQueueInfoJsonParser parser = new AsyncQueueInfoJsonParser(this, getApplicationContext(), findViewById(R.id.ride_view), r);
             parser.execute();
             return true;
+        }
+        else if (id == R.id.link_to_website){
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://queue-times.com"));
+            startActivity(browserIntent);
         }
         return super.onOptionsItemSelected(item);
     }
