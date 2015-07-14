@@ -30,7 +30,12 @@ public class RideListAdapter extends ArrayAdapter<Ride> {
        TextView header = (TextView) convertView.findViewById(R.id.lower_text);
         name.setText(ride.getName());
        name.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-      header.setText("Description coming soon!"); // What the string said :P
+        if (ride.getRideInfo().getLatestQueue().isOperational()){
+            header.setText("Current wait time: " + ride.getRideInfo().getLatestQueue().getWaitTime());
+        }
+        else {
+            header.setText("This ride is currently closed");
+        }
 
         return convertView;
     }

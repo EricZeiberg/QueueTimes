@@ -14,7 +14,9 @@ import com.queueTimes.Queue_Times.R;
 import com.queueTimes.Queue_Times.activities.RideView;
 import com.queueTimes.Queue_Times.adapters.RideListAdapter;
 import com.queueTimes.Queue_Times.models.Park;
+import com.queueTimes.Queue_Times.models.Queue;
 import com.queueTimes.Queue_Times.models.Ride;
+import com.queueTimes.Queue_Times.models.RideInfo;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -72,7 +74,13 @@ public class AsyncRideListJsonParser extends AsyncTask<Context, String, List<Rid
                 String name = jObject.getString("name");
                 String description = jObject.getString("description");
                 String uri = jObject.getString("uri");
+                int waitTime = jObject.getInt("wait_time");
+                boolean operational = jObject.getBoolean("operational");
+
                 Ride r = new Ride(park, name, id, description, uri, null);
+                RideInfo ri = new RideInfo(r);
+                ri.setLatestQueue(new Queue(r, 0, waitTime, operational, null));
+                r.setRideInfo(ri);
                 rides.add(r);
             } // End Loop
 
